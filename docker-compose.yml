@@ -1,0 +1,74 @@
+version: '3'
+
+services:
+  backend:
+    build: ./backend
+    command: bash -c "python manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - ./backend/:/backend
+    ports:
+      - "8000:8000"
+    networks:
+      - t-evolvers
+
+  simulator:
+    build: ./simulator
+    command: bash -c "python producer.py"
+    depends_on:
+      - redis
+    volumes:
+      - ./simulator/:/simulator
+    ports:
+      - "8001:8001"
+    networks:
+      - t-evolvers
+    
+  consumer:
+    build: ./consumer
+    command: bash -c "python consumer.py"
+    depends_on:
+      - redis
+      - backend
+    volumes:
+      - ./consumer/:/consumer
+    ports:
+      - "8002:8002"
+    networks:
+      - t-evolvers
+
+  alert:
+    build: ./alert
+    command: bash -c "python alert.py"
+    depends_on:
+      - redis
+      - backend
+    volumes:
+      - ./alert/:/alert
+    ports:
+      - "8003:8003"
+    networks:
+      - t-evolvers
+
+  web:
+    build: ./web
+    #command: bash -c "python alert.py"
+    depends_on:
+      - backend
+    volumes:
+      - ./web/html/:/web/html
+    ports:
+      - "80:80"
+    networks:
+      - t-evolvers
+  
+  redis:
+    image: redis
+    ports:
+      - 6379
+    networks:
+      - t-evolvers
+
+networks:
+  t-evolvers:
+    driver: bridge
+

@@ -1,0 +1,7 @@
+FROM nimmis/alpine-apache
+
+ENV CONSUMERDIR=/consumer
+
+#RUN mkdir $CONSUMERDIR
+#WORKDIR $CONSUMERDIR
+#COPY . $CONSUMERDIR/

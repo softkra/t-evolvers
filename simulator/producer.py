@@ -29,7 +29,7 @@ async def create_metrics():
             }
             resp = connection.xadd(STREAM_KEY, data)
             print("data send: ", data, " response stream: ", resp)
-        await asyncio.sleep(1000) #in seconds
+        await asyncio.sleep(60) #in seconds
 
 loop = asyncio.get_event_loop()
 try:

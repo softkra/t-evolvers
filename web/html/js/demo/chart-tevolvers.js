@@ -34,7 +34,7 @@ $.get( "http://192.168.1.13:8000/metrics/dashboard/", function( data ) {
   $("#avg_month").html(data['avg_month'].toFixed() + " °C");
   $("#avg_today").html(data['avg_today'].toFixed() + " °C");
   $("#notifications").html(data['notifications']);
-  $("#max_today").html(data['max_today']);
+  $("#max_today").html(data['max_today'].toFixed() + " °C");
 
   Object.entries(data['avg_month_by_device']).forEach(([key, value]) => {
     label_list.push(value[0]);
